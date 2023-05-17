@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{%  extends "base.html" %}
 
-</body>
-</html>
+{% block title %} Cancellazione {{ entity }} {% endblock %}
+
+{% block content %}
+    <h1> Cancellazione di {{ entity }} (like fr fr, si mandano i soci a casa loro)</h1>
+    <br>
+
+    <form method="post"> {% csrf_token %}
+    <p> Sicuro di voler cancellare (eliminare) "{{ object }}" ?</p>
+
+            <input type="submit" value="Conferma">
+    </form>
+
+
+{% endblock %}

@@ -84,3 +84,40 @@ class CreateInsegnamentoView(CreateView):
 class DetailInsegnamentoView(DetailView):
     model= Insegnamento
     template_name = "insegnamento.html"
+
+
+class UpdateInsegnamentoView(UpdateView):
+    model = Insegnamento
+    template_name = "edit_insegnamento.html"
+    fields = "__all__"
+
+    def get_success_url(self):
+        pk = self.get_context_data()["object"].pk
+        return reverse("Iscrizioni:insegnamento", kwargs={'pk': pk})
+
+
+class DeleteEntityView(DeleteView):
+    template_name = "cancella_entry.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data()
+        if self.model == "Studente":
+            entity = "Studente"
+        else:
+            entity = "Insegnamento"
+        ctx["entity"] = entity
+        return ctx
+
+    def get_success_url(self):
+        if self.model==Studente:
+            return reverse("Iscrizioni:listastudenti")
+        else:
+            return reverse("Iscrizioni:listainsegnamenti")
+
+
+class DeleteStudentiView(DeleteEntityView):
+    model = Studente
+
+
+class DeleteInsegnamentiView(DeleteEntityView):
+    model = Insegnamento

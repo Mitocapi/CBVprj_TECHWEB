@@ -30,6 +30,9 @@ urlpatterns = [
     path('studenti_iscritti/', ListaStudentiIscritti.as_view(), name = "studentiiscritti" ),
     path('creastudente/', CreateStudenteView.as_view(), name= "creastudente"),
     path('creainsegnamento/', CreateInsegnamentoView.as_view(), name="creainsegnamento"),
-    path("insegnamento/<pk>", DetailInsegnamentoView.as_view(), name= "insegnamento")
+    path("insegnamento/<pk>", DetailInsegnamentoView.as_view(), name= "insegnamento"),
+    path("editinsegnamento/<pk>", UpdateInsegnamentoView.as_view(), name="editinsegnamento"),
+    path("cancellastudente/<pk>", DeleteStudentiView.as_view(), name="cancellastudente"),
+    path("cancellainsegnamento/<pk>", DeleteInsegnamentiView.as_view(), name="cancellainsegnamento")
 
 ]
