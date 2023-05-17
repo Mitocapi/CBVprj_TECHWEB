@@ -21,7 +21,7 @@ def benvenuto(request):
 
 
 def post(request):
-    response = "The box, you opened it. <br> WE CAME!"
+    response = "The box, you opened it. <br> I CAME!"
     return HttpResponse(response)
 
 
