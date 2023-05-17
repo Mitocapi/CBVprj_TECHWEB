@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} Dump del DB Insegnamenti {% endblock %}
+
+{% block content %}
+
+{% for p in object_list %}
+<ul>
+    {{ p.titolo }}
+    <ol>
+        {% if p.studenti.all.count == 0 %}
+            No bitches?
+        {% else %}
+            {% for s in p.studenti.all %}
+    <li> {{s.name}} {{s.surname}} </li>
+            {% endfor %}
+        {% endif %}
+    </ol>
+</ul>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{%  block title %} {{ object.titolo }} {% endblock %}
+{% block content %}
+
+<h1> Dettagli di {{ object.titolo }}</h1>
+<br>
+    {% if object.studenti.all.count == 0 %}
+        No Bitches?
+        {% else %}
+           {% for s in object.studenti.all %}
+                <li> {{ s.name }} del clan dei {{ s.surname }}</li>
+           {% endfor %}
+    {% endif %}
+
+{% endblock %}
