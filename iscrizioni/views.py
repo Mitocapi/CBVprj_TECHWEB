@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -121,3 +121,65 @@ class DeleteStudentiView(DeleteEntityView):
 
 class DeleteInsegnamentiView(DeleteEntityView):
     model = Insegnamento
+
+
+class ListStudenteBySurname(ListaStudentiView):
+    def get_queryset(self):
+        arg = self.kwargs["surname"]
+        qs = self.model.objects.filter(surname__iexact=arg)
+        return qs
+
+
+class ListStudenteByName(ListaStudentiView):
+    def get_queryset(self):
+        arg = self.kwargs["name"]
+        qs = self.model.objects.filter(name__iexact=arg)
+        return qs
+
+def CercaStudenteView(request):
+    if request.method == "GET" :
+        return render(request, template_name="cerca_studente.html")
+    else:
+        if len(request.POST["name"]) < 1:
+            nome = "null"
+        else: nome = request.POST["name"]
+        if len(request.POST["surname"]) < 1:
+            cognome="null"
+        else: congnome = request.POST["surname"]
+        return redirect("Iscrizioni:studentecercato", name=nome, surname=cognome)
+
+
+class ListStudenteByNameAndSurname(ListView):
+    model = Studente
+    template_name="listastudenteinsegnamento.html"
+
+    def get_queryset(self):
+
+        try:
+            arg=self.kwargs["name"]
+            qs_name = self.model.objects.filter(name__iexact=arg)
+        except:
+            qs_name=self.model.objects.none()
+
+        try:
+            sarg=self.kwargs["surname"]
+            qs_surname = self.model.objects.filter(surname__iexact=sarg)
+        except:
+            qs_surname=self.model.objects.none()
+
+        return (qs_name | qs_surname)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titolo']= "studenti e loro insegnamenti"
+        ls=set()
+        for s in self.get_queryset():
+            for i in Insegnamento.objects.all():
+                if s in i.studenti.all():
+                    ls.add(i)
+
+        context['set_ins'] = ls
+
+        return context
+
