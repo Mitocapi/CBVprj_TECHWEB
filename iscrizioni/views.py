@@ -101,9 +101,9 @@ class DeleteEntityView(DeleteView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data()
-        if self.model == "Studente":
+        if self.model == Studente:
             entity = "Studente"
-        else:
+        else :
             entity = "Insegnamento"
         ctx["entity"] = entity
         return ctx
